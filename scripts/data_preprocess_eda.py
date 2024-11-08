@@ -79,9 +79,14 @@ def detect_outliers(data, assets, threshold=3):
     """Detects outliers in daily percentage change using Z-score method."""
     outliers = {}
     for asset in assets:
-        z_scores = stats.zscore(data[(asset, 'Daily_Pct_Change')].dropna())
-        outliers[asset] = data[(asset, 'Daily_Pct_Change')][(z_scores > threshold) | (z_scores < -threshold)]
+        # Calculate Z-scores and align the index
+        daily_pct_change = data[(asset, 'Daily_Pct_Change')].dropna()
+        z_scores = pd.Series(stats.zscore(daily_pct_change), index=daily_pct_change.index)
+        
+        # Identify outliers based on the threshold
+        outliers[asset] = daily_pct_change[(z_scores > threshold) | (z_scores < -threshold)]
     return outliers
+
 
 def decompose_seasonality(data, asset):
     """Performs seasonal decomposition on the closing price of a specified asset."""

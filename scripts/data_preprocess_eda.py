@@ -13,8 +13,12 @@ def fetch_data(assets, start_date, end_date):
 
 def clean_data(data):
     """Cleans the dataset by handling missing values."""
-    data.fillna(method='ffill', inplace=True)
+    data.dropna(inplace=True)
     return data
+
+def save_to_csv(data, filename):
+    """Saves the DataFrame to a CSV file."""
+    data.to_csv(filename)
 
 def display_statistics(data):
     """Displays basic statistics and data information."""

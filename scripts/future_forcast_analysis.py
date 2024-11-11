@@ -5,9 +5,6 @@ import pickle
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.preprocessing.sequence import TimeseriesGenerator
 
-
-
-
 def clean_data(data):
     """Handle missing values by forward filling and then dropping any remaining NaNs."""
     data.fillna(method='ffill', inplace=True)
